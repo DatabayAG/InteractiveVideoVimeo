@@ -2,11 +2,12 @@ il.InteractiveVideoVimeoPlayer = (function (scope) {
 	'use strict';
 
 	var pub = {}, pro = {};
+
 	pub.config = {
-		vimeo_player : null,
-		time : 0,
-		duration : 0,
-		time_end_filled :false
+		vimeo_player	: null,
+		time			: 0,
+		duration		: 0,
+		time_end_filled	:false
 	};
 
 	pub.protect = pro;
@@ -18,7 +19,7 @@ $( document ).ready(function() {
 
 	il.InteractiveVideoPlayerFunction.appendInteractionEvents();
 	var conf = il.InteractiveVideoVimeoPlayer.config;
-	conf.vimeo_player = new Vimeo.Player('ilInteractiveVideo', {width: 640, loop: false});
+	conf.vimeo_player = new Vimeo.Player('ilInteractiveVideo', {loop: false});
 
 	il.InteractiveVideoPlayerAbstract.config = {
 		pauseCallback           : (function (){conf.vimeo_player.pause();}),
