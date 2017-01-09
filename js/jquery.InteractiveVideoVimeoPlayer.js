@@ -55,6 +55,8 @@ $( document ).ready(function() {
 	});
 
 	conf.vimeo_player.on('play', function() {
+		il.InteractiveVideoPlayerAbstract.play();
+
 		interval = setInterval(function () {
 			il.InteractiveVideoPlayerFunction.playingEventHandler(interval, il.InteractiveVideoVimeoPlayer.config.vimeo_player);
 		}, 500);
