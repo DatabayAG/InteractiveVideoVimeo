@@ -1,5 +1,6 @@
 #Vimeo InteractiveVideo Plugin
 ILIAS Vimeo Plugin for Interactive Video Plugin
+Only compatible with InteractiveVideo version 2.0.0 and higher
 
 ## Installation Instructions
 1. Clone this repository to <ILIAS_DIRECTORY>/Customizing/global/plugins/Services/Repository/RepositoryObject/InteractiveVideo/VideoSources/plugin/InteractiveVideoVimeo

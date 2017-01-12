@@ -4,6 +4,7 @@ require_once 'Customizing/global/plugins/Services/Repository/RepositoryObject/In
 
 /**
  * Class ilInteractiveVideoVimeoGUI
+ * @author Guido Vollbach <gvollbach@databay.de>
  */
 class ilInteractiveVideoVimeoGUI implements ilInteractiveVideoSourceGUI
 {
@@ -30,7 +31,6 @@ class ilInteractiveVideoVimeoGUI implements ilInteractiveVideoSourceGUI
 	 */
 	public function checkForm($form)
 	{
-		//  https://vimeo.com/159240611
 		$value = ilUtil::stripSlashes($form->getInput(ilInteractiveVideoVimeo::FORM_FIELD));
 		$vimeo_id = ilInteractiveVideoVimeo::getVimeoIdentifier($value);
 		if($vimeo_id)
@@ -65,8 +65,8 @@ class ilInteractiveVideoVimeoGUI implements ilInteractiveVideoSourceGUI
 	}
 
 	/**
-	 * @param array $a_values
-	 * @param       $obj
+	 * @param array                 $a_values
+	 * @param ilObjInteractiveVideo $obj
 	 */
 	public function getEditFormCustomValues(array &$a_values, $obj)
 	{
