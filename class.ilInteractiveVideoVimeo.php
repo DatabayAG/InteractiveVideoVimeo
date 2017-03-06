@@ -48,14 +48,13 @@ class ilInteractiveVideoVimeo implements ilInteractiveVideoSource
 
 	/**
 	 * @param $obj_id
-	 * @return string
 	 */
 	public function doReadVideoSource($obj_id)
 	{
 		global $ilDB;
 		$result = $ilDB->query('SELECT vimeo_id FROM '.self::TABLE_NAME.' WHERE obj_id = '.$ilDB->quote($obj_id, 'integer'));
 		$row = $ilDB->fetchAssoc($result);
-		return $row['vimeo_id'];
+		$this->setVimeoId($row['vimeo_id']);
 	}
 
 	/**
@@ -72,8 +71,8 @@ class ilInteractiveVideoVimeo implements ilInteractiveVideoSource
 	 */
 	public function doCloneVideoSource($original_obj_id, $new_obj_id)
 	{
-		$vimeo_id = $this->doReadVideoSource($original_obj_id);
-		$this->saveData($new_obj_id, $vimeo_id);
+		$this->doReadVideoSource($original_obj_id);
+		$this->saveData($new_obj_id, $this->getVimeoId());
 	}
 
 	/**
@@ -115,7 +114,14 @@ class ilInteractiveVideoVimeo implements ilInteractiveVideoSource
 	 */
 	public function doUpdateVideoSource($obj_id)
 	{
-		$vimeo_id = self::getVimeoIdentifier(ilUtil::stripSlashes($_POST[self::FORM_FIELD]));
+		if(ilUtil::stripSlashes($_POST[self::FORM_FIELD]))
+		{
+			$vimeo_id = self::getVimeoIdentifier(ilUtil::stripSlashes($_POST[self::FORM_FIELD]));
+		}
+		else
+		{
+			$vimeo_id = $this->getVimeoId();
+		}
 
 		if($vimeo_id)
 		{
@@ -191,6 +197,15 @@ class ilInteractiveVideoVimeo implements ilInteractiveVideoSource
 	}
 
 	/**
+	 * @param $obj_id
+	 * @return string
+	 */
+	public function getPath($obj_id)
+	{
+		return '';
+	}
+
+	/**
 	 * @param $value
 	 * @return string | boolean
 	 */
@@ -212,6 +227,16 @@ class ilInteractiveVideoVimeo implements ilInteractiveVideoSource
 	 */
 	public function doExportVideoSource($obj_id, $xml_writer, $export_path)
 	{
+		$this->doReadVideoSource($obj_id);
+		$xml_writer->xmlElement('VimeoId', null, (string)$this->getVimeoId());
+	}
 
+	/**
+	 *
+	 */
+	public function getVideoSourceImportParser()
+	{
+		require_once 'Customizing/global/plugins/Services/Repository/RepositoryObject/InteractiveVideo/VideoSources/plugin/InteractiveVideoVimeo/class.ilInteractiveVideoVimeoXMLParser.php';
+		return 'ilInteractiveVideoVimeoXMLParser';
 	}
 }

@@ -19,7 +19,8 @@ class ilInteractiveVideoVimeoGUI implements ilInteractiveVideoSourceGUI
 	{
 		$vimeo_url = new ilTextInputGUI(ilInteractiveVideoPlugin::getInstance()->txt('meo_url'), ilInteractiveVideoVimeo::FORM_FIELD);
 		$object = new ilInteractiveVideoVimeo();
-		$vimeo_url->setValue($object->doReadVideoSource($obj_id));
+		$object->doReadVideoSource($obj_id);
+		$vimeo_url->setValue($object->getVimeoId());
 		$vimeo_url->setInfo(ilInteractiveVideoPlugin::getInstance()->txt('meo_vimeo_info'));
 		$option->addSubItem($vimeo_url);
 		return $option;
@@ -60,7 +61,8 @@ class ilInteractiveVideoVimeoGUI implements ilInteractiveVideoSourceGUI
 	{
 		$player = new ilTemplate('Customizing/global/plugins/Services/Repository/RepositoryObject/InteractiveVideo/VideoSources/plugin/InteractiveVideoVimeo/tpl/tpl.video.html', false, false);
 		$instance = new ilInteractiveVideoVimeo();
-		$player->setVariable('VIMEO_ID', $instance->doReadVideoSource($obj->getId()));
+		$instance->doReadVideoSource($obj->getId());
+		$player->setVariable('VIMEO_ID', $instance->getVimeoId());
 		return $player;
 	}
 
@@ -71,7 +73,8 @@ class ilInteractiveVideoVimeoGUI implements ilInteractiveVideoSourceGUI
 	public function getEditFormCustomValues(array &$a_values, $obj)
 	{
 		$instance = new ilInteractiveVideoVimeo();
-		$value = $instance->doReadVideoSource($obj->getId());
+		$instance->doReadVideoSource($obj->getId());
+		$value = $instance->getVimeoId();
 		if($value != '')
 		{
 			$value = self::VIMEO_URL . $value;
