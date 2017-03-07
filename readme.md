@@ -8,3 +8,6 @@ Only compatible with InteractiveVideo version 2.0.0 and higher
 3. Select **Plugins** from the **Administration** main menu drop down.
 4. Search the **InteractiveVideo** plugin in the list of plugin and choose **Configure** from the **Actions** drop down.
 5. Apply Database Update Steps for Subplugin
+
+## Dependencies
+* InteractiveVideo
