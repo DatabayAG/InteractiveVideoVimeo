@@ -40,10 +40,13 @@ $( document ).ready(function() {
 		}
 	});
 
-	conf.vimeo_player.on('seeked', function() {
-		clearInterval(interval);
-		il.InteractiveVideoPlayerFunction.seekingEventHandler();
-	});
+    conf.vimeo_player.on('seeked', function () {
+        clearInterval(interval);
+        il.InteractiveVideoPlayerFunction.seekingEventHandler();
+        interval = setInterval(function () {
+            il.InteractiveVideoPlayerFunction.playingEventHandler(interval, il.InteractiveVideoVimeoPlayer.config.vimeo_player);
+        }, 100);
+    });
 
 	conf.vimeo_player.on('pause', function() {
 		clearInterval(interval);
