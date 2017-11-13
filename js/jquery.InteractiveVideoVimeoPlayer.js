@@ -15,53 +15,65 @@ il.InteractiveVideoVimeoPlayer = (function (scope) {
 
 }(il));
 
-$( document ).ready(function() {
+(function ($) {
 
-	il.InteractiveVideoPlayerFunction.appendInteractionEvents();
-	var conf = il.InteractiveVideoVimeoPlayer.config;
-	conf.vimeo_player = new Vimeo.Player('ilInteractiveVideo', {loop: false});
-
-	il.InteractiveVideoPlayerAbstract.config = {
-		pauseCallback           : (function (){conf.vimeo_player.pause();}),
-		playCallback            : (function (){conf.vimeo_player.play();}),
-		durationCallback        : (function (){return conf.duration;}),
-		currentTimeCallback     : (function (){return conf.time;}),
-		setCurrentTimeCallback  : (function (time){conf.vimeo_player.setCurrentTime(time);})
-	};
-	conf.vimeo_player.on('timeupdate', function(data) {
+	il.Util.addOnLoad(function () {
+		il.InteractiveVideo.last_stopPoint = -1;
+		il.InteractiveVideoPlayerFunction.appendInteractionEvents();
 		var conf = il.InteractiveVideoVimeoPlayer.config;
-		conf.duration	= data.duration;
-		conf.time		= data.seconds;
+		var options = {
+			"techOrder": ["Vimeo"],
+			"sources": [{ "type": "video/vimeo", "src": "https://vimeo.com/"+interactiveVideoVimeoId+""}], "vimeo": { "color": "#fbc51b"} 
+		};
 
-		if(!conf.time_end_filled && conf.duration > 0)
-		{
-			il.InteractiveVideoPlayerComments.fillEndTimeSelector(conf.duration)
-			conf.time_end_filled = true;
-		}
+		var player = videojs('ilInteractiveVideo', options, function onPlayerReady() {
+
+			var interval = null;
+
+			il.InteractiveVideoPlayerAbstract.config = {
+				pauseCallback           : (function (){player.pause();}),
+				playCallback            : (function (){player.play();}),
+				durationCallback        : (function (){return player.duration();}),
+				currentTimeCallback     : (function (){return player.currentTime();}),
+				setCurrentTimeCallback  : (function (time){player.setCurrentTime(time);})
+			};
+
+			il.InteractiveVideoPlayerComments.fillEndTimeSelector(il.InteractiveVideoPlayerAbstract.duration());
+
+			this.on('timeupdate', function(data) {
+				var conf = il.InteractiveVideoVimeoPlayer.config;
+				conf.duration	= data.duration;
+				conf.time		= data.seconds;
+
+				if(!conf.time_end_filled && conf.duration > 0)
+				{
+					il.InteractiveVideoPlayerComments.fillEndTimeSelector(conf.duration)
+					conf.time_end_filled = true;
+				}
+			});
+
+
+			this.on('seeked', function() {
+				clearInterval(interval);
+				il.InteractiveVideoPlayerFunction.seekingEventHandler();
+			});
+
+			this.on('pause', function() {
+				clearInterval(interval);
+				il.InteractiveVideo.last_time = il.InteractiveVideoPlayerAbstract.currentTime();
+			});
+
+			this.on('ended', function() {
+				il.InteractiveVideoPlayerAbstract.videoFinished();
+			});
+
+			this.on('play', function() {
+				il.InteractiveVideoPlayerAbstract.play();
+
+				interval = setInterval(function () {
+					il.InteractiveVideoPlayerFunction.playingEventHandler(interval, il.InteractiveVideoVimeoPlayer.config.vimeo_player);
+				}, 500);
+			});
+		});
 	});
-
-	conf.vimeo_player.on('seeked', function() {
-		clearInterval(interval);
-		il.InteractiveVideoPlayerFunction.seekingEventHandler();
-	});
-
-	conf.vimeo_player.on('pause', function() {
-		clearInterval(interval);
-		il.InteractiveVideo.last_time = il.InteractiveVideoPlayerAbstract.currentTime();
-	});
-
-	conf.vimeo_player.on('ended', function() {
-		il.InteractiveVideoPlayerAbstract.videoFinished();
-	});
-
-	conf.vimeo_player.on('play', function() {
-		il.InteractiveVideoPlayerAbstract.play();
-
-		interval = setInterval(function () {
-			il.InteractiveVideoPlayerFunction.playingEventHandler(interval, il.InteractiveVideoVimeoPlayer.config.vimeo_player);
-		}, 500);
-	});
-
-	il.InteractiveVideoPlayerComments.fillEndTimeSelector(il.InteractiveVideoPlayerAbstract.duration());
-
-});
+})(jQuery);

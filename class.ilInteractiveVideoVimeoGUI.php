@@ -49,7 +49,7 @@ class ilInteractiveVideoVimeoGUI implements ilInteractiveVideoSourceGUI
 	public function addPlayerElements($tpl)
 	{
 		$tpl->addJavaScript('Customizing/global/plugins/Services/Repository/RepositoryObject/InteractiveVideo/VideoSources/plugin/InteractiveVideoVimeo/js/jquery.InteractiveVideoVimeoPlayer.js');
-		$tpl->addJavaScript('Customizing/global/plugins/Services/Repository/RepositoryObject/InteractiveVideo/VideoSources/plugin/InteractiveVideoVimeo/js/vimeo_player_api.js');
+		$tpl->addJavaScript('Customizing/global/plugins/Services/Repository/RepositoryObject/InteractiveVideo/VideoSources/plugin/InteractiveVideoVimeo/libs/video.js-vimeo.js');
 		return $tpl;
 	}
 
