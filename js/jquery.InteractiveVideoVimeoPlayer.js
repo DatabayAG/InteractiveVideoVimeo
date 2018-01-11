@@ -39,6 +39,7 @@ il.InteractiveVideoVimeoPlayer = (function (scope) {
 			};
 
 			il.InteractiveVideoPlayerComments.fillEndTimeSelector(il.InteractiveVideoPlayerAbstract.duration());
+			$('#ilInteractiveVideo').prepend($('#ilInteractiveVideoOverlay'));
 
 			this.on('timeupdate', function(data) {
 				var conf = il.InteractiveVideoVimeoPlayer.config;
@@ -73,6 +74,14 @@ il.InteractiveVideoVimeoPlayer = (function (scope) {
 				interval = setInterval(function () {
 					il.InteractiveVideoPlayerFunction.playingEventHandler(interval, il.InteractiveVideoVimeoPlayer.config.vimeo_player);
 				}, 500);
+			});
+
+			this.on('contextmenu', function(e) {
+				e.preventDefault();
+			});
+
+			this.on('ready', function(e){
+				il.InteractiveVideoPlayerAbstract.readyCallback();
 			});
 		});
 	});
