@@ -27,7 +27,7 @@ il.InteractiveVideoVimeoPlayer = (function (scope) {
 		};
 
 		var player = videojs('ilInteractiveVideo', options, function onPlayerReady() {
-
+			il.InteractiveVideoVimeoPlayer.vimeo_player = player;
 			var interval = null;
 
 			il.InteractiveVideoPlayerAbstract.config = {
@@ -35,7 +35,8 @@ il.InteractiveVideoVimeoPlayer = (function (scope) {
 				playCallback            : (function (){player.play();}),
 				durationCallback        : (function (){return player.duration();}),
 				currentTimeCallback     : (function (){return player.currentTime();}),
-				setCurrentTimeCallback  : (function (time){player.setCurrentTime(time);})
+				setCurrentTimeCallback  : (function (time){player.currentTime(time);}),
+				external : true
 			};
 
 			il.InteractiveVideoPlayerComments.fillEndTimeSelector(il.InteractiveVideoPlayerAbstract.duration());
@@ -81,6 +82,7 @@ il.InteractiveVideoVimeoPlayer = (function (scope) {
 			});
 
 			this.on('ready', function(e){
+				$('.vjs-control-bar').hide();
 				il.InteractiveVideoPlayerAbstract.readyCallback();
 			});
 		});
