@@ -211,11 +211,11 @@ class ilInteractiveVideoVimeo implements ilInteractiveVideoSource
 	 */
 	public static function getVimeoIdentifier($value)
 	{
-		$regex = '/(http|https):\/\/vimeo\.com\/(.+)/';
+		$regex = '#(https?://)?(www.)?(player.)?vimeo.com/([a-z]*/)*([0-9]{6,11})[?]?.*#';
 		preg_match_all($regex, $value, $matches);
-		if(sizeof($matches) == 3 && array_key_exists(0, $matches[2]))
+		if(sizeof($matches) >= 6 && array_key_exists(0, $matches[5]))
 		{
-			return $matches[2][0];
+			return $matches[5][0];
 		}
 		return false;
 	}
