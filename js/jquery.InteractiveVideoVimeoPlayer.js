@@ -21,8 +21,7 @@ var player = null;
 			playCallback               : (function (){player.play();}),
 			durationCallback           : (function (){return player.getDuration();}),
 			currentTimeCallback        : (function (){return player.getCurrentTime();}),
-			setCurrentTimeCallback     : (function (time){player.seek(time);}),
-			external : false
+			setCurrentTimeCallback     : (function (time){player.seek(time);})
 		};
 
 		il.InteractiveVideoPlayerComments.fillEndTimeSelector(il.InteractiveVideoPlayerAbstract.duration());
@@ -49,6 +48,11 @@ var player = null;
 		});
 
 		player.on('ready', function(e){
+
+		});
+
+		player.on('loadedmetadata', function(e){
+			il.InteractiveVideoOverlayMarker.checkForEditScreen();
 			il.InteractiveVideoPlayerAbstract.readyCallback();
 		});
 
