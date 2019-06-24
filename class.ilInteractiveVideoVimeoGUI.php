@@ -96,5 +96,7 @@ class ilInteractiveVideoVimeoGUI implements ilInteractiveVideoSourceGUI
 	{
 		return false;
 	}
+	
+	
 
 }

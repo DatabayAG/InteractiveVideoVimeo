@@ -248,4 +248,9 @@ class ilInteractiveVideoVimeo implements ilInteractiveVideoSource
 	{
 
 	}
+
+    public function hasOwnPlayer()
+    {
+        return true;
+    }
 }
