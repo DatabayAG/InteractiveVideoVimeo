@@ -53,11 +53,12 @@ class ilInteractiveVideoVimeoGUI implements ilInteractiveVideoSourceGUI
 		return $tpl;
 	}
 
-	/**
-	 * @param ilObjInteractiveVideo $obj
-	 * @return ilTemplate
-	 */
-	public function getPlayer($obj)
+    /**
+     * @param                       $player_id
+     * @param ilObjInteractiveVideo $obj
+     * @return ilTemplate
+     */
+    public function getPlayer($player_id, $obj)
 	{
 		$player = new ilTemplate('Customizing/global/plugins/Services/Repository/RepositoryObject/InteractiveVideo/VideoSources/plugin/InteractiveVideoVimeo/tpl/tpl.video.html', false, false);
 		$instance = new ilInteractiveVideoVimeo();
