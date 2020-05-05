@@ -19,10 +19,9 @@ $( document ).ready(function() {
 	$.each(il.InteractiveVideo, function (player_id, value) {
 		if (value.hasOwnProperty("player_type") && value.player_type === "meo") {
 			il.InteractiveVideoPlayerFunction.appendInteractionEvents(player_id);
-			console.log('player', player_id)
+
 			var conf = il.InteractiveVideoVimeoPlayer.config;
 			conf.vimeo_player = new Vimeo.Player(player_id, {loop: false});
-
 			il.InteractiveVideoPlayerAbstract.config[player_id] = {
 				pauseCallback:          (function () {
 					conf.vimeo_player.pause(player_id);
@@ -34,7 +33,10 @@ $( document ).ready(function() {
 					return conf.duration;
 				}),
 				currentTimeCallback:    (function () {
-					return conf.time;
+					return conf.vimeo_player.getCurrentTime().then(function(seconds) {
+						return seconds;
+					});
+					return current_time;
 				}),
 				setCurrentTimeCallback: (function (time) {
 					conf.vimeo_player.setCurrentTime(time, player_id);
@@ -53,7 +55,7 @@ $( document ).ready(function() {
 
 			conf.vimeo_player.on('seeked', function () {
 				clearInterval(interval);
-				il.InteractiveVideoPlayerFunction.seekingEventHandler();
+				il.InteractiveVideoPlayerFunction.seekingEventHandler(player_id);
 				interval = setInterval(function () {
 					il.InteractiveVideoPlayerFunction.playingEventHandler(interval, il.InteractiveVideoVimeoPlayer.config.vimeo_player);
 				}, 100);
@@ -61,15 +63,14 @@ $( document ).ready(function() {
 
 			conf.vimeo_player.on('pause', function () {
 				clearInterval(interval);
-				il.InteractiveVideo.last_time = il.InteractiveVideoPlayerAbstract.currentTime();
+				il.InteractiveVideo.last_time = il.InteractiveVideoPlayerAbstract.currentTime(player_id);
 			});
 
 			conf.vimeo_player.on('ended', function () {
-				il.InteractiveVideoPlayerAbstract.videoFinished();
+				il.InteractiveVideoPlayerAbstract.videoFinished(player_id);
 			});
 
 			conf.vimeo_player.on('play', function () {
-				il.InteractiveVideoPlayerAbstract.play();
 
 				interval = setInterval(function () {
 					il.InteractiveVideoPlayerFunction.playingEventHandler(interval, il.InteractiveVideoVimeoPlayer.config.vimeo_player);
