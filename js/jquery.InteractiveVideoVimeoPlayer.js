@@ -33,6 +33,7 @@ $( document ).ready(function() {
 					return conf.duration;
 				}),
 				currentTimeCallback:    (function () {
+					return il.InteractiveVideoVimeoPlayer.config.time
 					return conf.vimeo_player.getCurrentTime().then(function(seconds) {
 						return seconds;
 					});
@@ -43,7 +44,7 @@ $( document ).ready(function() {
 				})
 			};
 			conf.vimeo_player.on('timeupdate', function (data) {
-				var conf = il.InteractiveVideoVimeoPlayer.config[player_id];
+				let conf = il.InteractiveVideoVimeoPlayer.config;
 				conf.duration = data.duration;
 				conf.time = data.seconds;
 
@@ -73,6 +74,7 @@ $( document ).ready(function() {
 			conf.vimeo_player.on('play', function () {
 
 				interval = setInterval(function () {
+
 					il.InteractiveVideoPlayerFunction.playingEventHandler(interval, il.InteractiveVideoVimeoPlayer.config.vimeo_player);
 				}, 500);
 			});
