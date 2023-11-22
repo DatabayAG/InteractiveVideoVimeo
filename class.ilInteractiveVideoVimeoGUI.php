@@ -9,7 +9,7 @@ require_once 'Customizing/global/plugins/Services/Repository/RepositoryObject/In
 class ilInteractiveVideoVimeoGUI implements ilInteractiveVideoSourceGUI
 {
 	const VIMEO_URL = 'https://vimeo.com/';
-	
+
 	/**
 	 * @param ilRadioOption $option
 	 * @param               $obj_id
@@ -19,7 +19,9 @@ class ilInteractiveVideoVimeoGUI implements ilInteractiveVideoSourceGUI
 	{
 		$vimeo_url = new ilTextInputGUI(ilInteractiveVideoPlugin::getInstance()->txt('meo_url'), ilInteractiveVideoVimeo::FORM_FIELD);
 		$object = new ilInteractiveVideoVimeo();
-		$object->doReadVideoSource($obj_id);
+		if($obj_id > 0) {
+			$object->doReadVideoSource($obj_id);
+		}
 		$vimeo_url->setValue($object->getVimeoId());
 		$vimeo_url->setInfo(ilInteractiveVideoPlugin::getInstance()->txt('meo_vimeo_info'));
 		$option->addSubItem($vimeo_url);
@@ -40,7 +42,7 @@ class ilInteractiveVideoVimeoGUI implements ilInteractiveVideoSourceGUI
 		}
 		return false;
 	}
-	
+
 
 	/**
 	 * @param ilTemplate $tpl
@@ -98,7 +100,7 @@ class ilInteractiveVideoVimeoGUI implements ilInteractiveVideoSourceGUI
 	{
 		return false;
 	}
-	
-	
+
+
 
 }
