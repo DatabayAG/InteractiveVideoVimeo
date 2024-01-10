@@ -54,7 +54,9 @@ class ilInteractiveVideoVimeo implements ilInteractiveVideoSource
 		global $ilDB;
 		$result = $ilDB->query('SELECT vimeo_id FROM '.self::TABLE_NAME.' WHERE obj_id = '.$ilDB->quote($obj_id, 'integer'));
 		$row = $ilDB->fetchAssoc($result);
-		$this->setVimeoId($row['vimeo_id']);
+        if($row !== null) {
+            $this->setVimeoId($row['vimeo_id']);
+        }
 	}
 
 	/**

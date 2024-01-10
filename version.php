@@ -1,6 +1,6 @@
 <?php
 $id = 'meo';
-$version = '0.0.1';
+$version = '0.0.3';
 $interactive_video_min_version = '1.1.5';
 $interactive_video_max_version = '1.1.999';
 
