@@ -22,6 +22,15 @@ $( document ).ready(function() {
 
 			var conf = il.InteractiveVideoVimeoPlayer.config;
 			conf.vimeo_player = new Vimeo.Player(player_id, {loop: false});
+
+			// Adding a player object to handle Vimeo fullscreen settings.
+			var player = {
+				fullscreen: {
+					active: conf.vimeo_player.getFullscreen(),
+					exit: function () { return conf.vimeo_player.exitFullscreen(); },
+				}
+			}
+			il.InteractiveVideo[player_id].player = player;
 			il.InteractiveVideoPlayerAbstract.config[player_id] = {
 				pauseCallback:          (function () {
 					conf.vimeo_player.pause(player_id);
@@ -40,7 +49,8 @@ $( document ).ready(function() {
 					return current_time;*/
 				}),
 				setCurrentTimeCallback: (function (time) {
-					conf.vimeo_player.setCurrentTime(time, player_id);
+					conf.time = time;
+					// conf.vimeo_player.setCurrentTime(time, player_id);
 				})
 			};
 			conf.vimeo_player.on('timeupdate', function (data) {
