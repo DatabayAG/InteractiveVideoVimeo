@@ -116,9 +116,10 @@ class ilInteractiveVideoVimeo implements ilInteractiveVideoSource
 	 */
 	public function doUpdateVideoSource($obj_id)
 	{
-		if(ilUtil::stripSlashes($_POST[self::FORM_FIELD]))
+		$source_id = $_POST[self::FORM_FIELD];
+		if($source_id !== null && ilUtil::stripSlashes($source_id))
 		{
-			$vimeo_id = self::getVimeoIdentifier(ilUtil::stripSlashes($_POST[self::FORM_FIELD]));
+			$vimeo_id = self::getVimeoIdentifier(ilUtil::stripSlashes($source_id));
 		}
 		else
 		{
